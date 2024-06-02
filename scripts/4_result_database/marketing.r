@@ -25,7 +25,7 @@ levels(marketing_df$sexe)[levels(marketing_df$sexe) == "M"] <- "H"
 levels_situationfamiliale <- c("En Couple", "Célibataire", "Seul(e)", "Divorcé(e)")
 # Update 'situationfamiliale' in marketing_df to include all levels
 marketing_df$situationfamiliale <- factor(marketing_df$situationfamiliale,
-    levels = levels_situationfamiliale
+  levels = levels_situationfamiliale
 )
 # Convert 'deuxiemevoiture' to a factor
 marketing_df$deuxiemevoiture <- as.factor(marketing_df$deuxiemevoiture)
@@ -67,19 +67,19 @@ END;")
 dbSendQuery(con, create_table)
 
 insert_row <- function(row) {
-    sql_insert <- paste(
-        "INSERT INTO marketing_result (AGE, SEXE, TAUX, SITUATIONFAMILIALE, NBENFANTSACHARGE, DEUXIEMEVOITURE, CATEGORIE)",
-        "VALUES",
-        "(", row$age, ",", "'", row$sexe, "'", ",", row$taux, ",", "'", row$situationfamiliale, "'", ",",
-        row$nbenfantsacharge, ",", row$deuxiemevoiture, ",", "'", row$categorie, "'", ")"
-    )
-    result <- dbSendQuery(con, sql_insert)
-    dbCommit(con)
-    dbClearResult(result)
+  sql_insert <- paste(
+    "INSERT INTO marketing_result (AGE, SEXE, TAUX, SITUATIONFAMILIALE, NBENFANTSACHARGE, DEUXIEMEVOITURE, CATEGORIE)",
+    "VALUES",
+    "(", row$age, ",", "'", row$sexe, "'", ",", row$taux, ",", "'", row$situationfamiliale, "'", ",",
+    row$nbenfantsacharge, ",", row$deuxiemevoiture, ",", "'", row$categorie, "'", ")"
+  )
+  result <- dbSendQuery(con, sql_insert)
+  dbCommit(con)
+  dbClearResult(result)
 }
 
 for (i in 1:nrow(marketing_df)) {
-    insert_row(marketing_df[i, ])
+  insert_row(marketing_df[i, ])
 }
 
 print("Process done")
