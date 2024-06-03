@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX POST Form</title>
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body class="">
+    <form id="customerForm">
+      <label for="age">Age:</label>
+      <input class="border-2" type="number" id="age" name="age" value="25" />
+      <br />
+      <label for="sexe">Sexe:</label>
+      <select class="border-2" id="sexe" name="sexe">
+        <option value="M" selected>Homme</option>
+        <option value="F">Femme</option>
+      </select>
+      <br />
+      <label for="taux">Taux:</label>
+      <input class="border-2" type="number" id="taux" name="taux" value="24" />
+      <br />
+      <label for="situationfamiliale">Situation Familiale:</label>
+      <select
+        class="border-2"
+        id="situationfamiliale"
+        name="situationfamiliale"
+      >
+        <option value="En Couple">En Couple</option>
+        <option value="Célibataire">Célibataire</option>
+        <option value="Seul(e)">Seul(e)</option>
+        <option value="Divorcé(e)">Divorcé(e)</option>
+      </select>
+      <br />
+      <label for="nbenfantsacharge">Nombre d'enfants à charge:</label>
+      <input
+        class="border-2"
+        type="number"
+        id="nbenfantsacharge"
+        name="nbenfantsacharge"
+        value="5"
+      />
+      <br />
+      <label for="deuxiemevoiture">Deuxième voiture:</label>
+      <select class="border-2" id="deuxiemevoiture" name="deuxiemevoiture">
+        <option value="false" selected>Non</option>
+        <option value="true">Oui</option>
+      </select>
+      <br />
+      <button type="submit" class="bg-blue-500">Submit</button>
+    </form>
+    <div id="response"></div>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Age</th>
+          <th>Sexe</th>
+          <th>Taux</th>
+          <th>Situation Familiale</th>
+          <th>Nombre d'enfants à charge</th>
+          <th>Deuxième voiture</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be inserted here -->
+      </tbody>
+    </table>
+
+    <script>
+      document
+        .getElementById("customerForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const formObject = Object.fromEntries(formData.entries());
+          console.log(formObject);
+          fetch("http://127.0.0.1:5662/predict_marketing", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formObject),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              document.getElementById("response").innerText = data[0].categorie;
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchDataAndFillTable();
+      });
+
+      function fetchDataAndFillTable() {
+        fetch("http://127.0.0.1:5662/get_marketing")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            const tableBody = document.querySelector("#dataTable tbody");
+            data.forEach((item) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+              <td>${item.AGE}</td>
+              <td>${item.SEXE}</td>
+              <td>${item.TAUX}</td>
+              <td>${item.SITUATIONFAMILIALE}</td>
+              <td>${item.NBENFANTSACHARGE}</td>
+              <td>${item.DEUXIEMEVOITURE ? "Oui" : "Non"}</td>
+            `;
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
+</html>
