@@ -6,118 +6,124 @@
     <title>AJAX POST Form</title>
     <link href="./output.css" rel="stylesheet" />
   </head>
-  <body class="">
-    <form id="customerForm">
-      <label for="age">Age:</label>
-      <input class="border-2" type="number" id="age" name="age" value="25" />
-      <br />
-      <label for="sexe">Sexe:</label>
-      <select class="border-2" id="sexe" name="sexe">
-        <option value="M" selected>Homme</option>
-        <option value="F">Femme</option>
-      </select>
-      <br />
-      <label for="taux">Taux:</label>
-      <input class="border-2" type="number" id="taux" name="taux" value="24" />
-      <br />
-      <label for="situationfamiliale">Situation Familiale:</label>
-      <select
-        class="border-2"
-        id="situationfamiliale"
-        name="situationfamiliale"
+  <body class="bg-blue-300">
+    <div class="flex mt-10 p-10 bg-white w-8/12 mx-auto rounded-2xl">
+      <form
+        id="customerForm"
+        class="flex-1 flex flex-col gap-5 prose max-w-none"
       >
-        <option value="En Couple">En Couple</option>
-        <option value="Célibataire">Célibataire</option>
-        <option value="Seul(e)">Seul(e)</option>
-        <option value="Divorcé(e)">Divorcé(e)</option>
-      </select>
-      <br />
-      <label for="nbenfantsacharge">Nombre d'enfants à charge:</label>
-      <input
-        class="border-2"
-        type="number"
-        id="nbenfantsacharge"
-        name="nbenfantsacharge"
-        value="5"
-      />
-      <br />
-      <label for="deuxiemevoiture">Deuxième voiture:</label>
-      <select class="border-2" id="deuxiemevoiture" name="deuxiemevoiture">
-        <option value="false" selected>Non</option>
-        <option value="true">Oui</option>
-      </select>
-      <br />
-      <button type="submit" class="bg-blue-500">Submit</button>
-    </form>
-    <div id="response"></div>
+        <h1 class="mb-0">Customer information</h1>
+        <div class="flex flex-col">
+          <label for="age">Age:</label>
+          <input
+            class="border-2"
+            type="number"
+            id="age"
+            name="age"
+            value="25"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="sexe">Sexe:</label>
+          <select class="border-2" id="sexe" name="sexe">
+            <option value="M" selected>Homme</option>
+            <option value="F">Femme</option>
+          </select>
+        </div>
+        <div class="flex flex-col">
+          <label for="taux">Taux:</label>
+          <input
+            class="border-2"
+            type="number"
+            id="taux"
+            name="taux"
+            value="24"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="situationfamiliale">Situation Familiale:</label>
+          <select
+            class="border-2"
+            id="situationfamiliale"
+            name="situationfamiliale"
+          >
+            <option value="En Couple">En Couple</option>
+            <option value="Célibataire">Célibataire</option>
+            <option value="Seul(e)">Seul(e)</option>
+            <option value="Divorcé(e)">Divorcé(e)</option>
+          </select>
+        </div>
+        <div class="flex flex-col">
+          <label for="nbenfantsacharge">Nombre d'enfants à charge:</label>
+          <input
+            class="border-2"
+            type="number"
+            id="nbenfantsacharge"
+            name="nbenfantsacharge"
+            value="5"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="deuxiemevoiture">Deuxième voiture:</label>
+          <select class="border-2" id="deuxiemevoiture" name="deuxiemevoiture">
+            <option value="false" selected>Non</option>
+            <option value="true">Oui</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          class="bg-blue-500 py-2 font-bold text-white rounded-xl"
+        >
+          Submit
+        </button>
+      </form>
+      <div
+        id="response"
+        class="flex-1 flex justify-center items-center font-bold text-2xl"
+      >
+        No Result
+      </div>
+    </div>
 
-    <table id="dataTable">
-      <thead>
-        <tr>
-          <th>Age</th>
-          <th>Sexe</th>
-          <th>Taux</th>
-          <th>Situation Familiale</th>
-          <th>Nombre d'enfants à charge</th>
-          <th>Deuxième voiture</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Data will be inserted here -->
-      </tbody>
-    </table>
+    <div class="bg-white mx-auto w-8/12 mt-10 p-10 rounded-2xl">
+      <div class="relative overflow-x-auto">
+        <table
+          class="w-full text-sm text-left rtl:text-right text-gray-500"
+          id="dataTable"
+        >
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3">ID</th>
+              <th scope="col" class="px-6 py-3">Age</th>
+              <th scope="col" class="px-6 py-3">Sexe</th>
+              <th scope="col" class="px-6 py-3">Taux</th>
+              <th scope="col" class="px-6 py-3">Situation Familiale</th>
+              <th scope="col" class="px-6 py-3">Nombre d'enfants à charge</th>
+              <th scope="col" class="px-6 py-3">Deuxième voiture</th>
+              <th scope="col" class="px-6 py-3">Catégorie</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <script>
-      document
-        .getElementById("customerForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+      <!-- <table id="dataTable" class="border">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Age</th>
+            <th>Sexe</th>
+            <th>Taux</th>
+            <th>Situation Familiale</th>
+            <th>Nombre d'enfants à charge</th>
+            <th>Deuxième voiture</th>
+            <th>Catégorie</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table> -->
+    </div>
 
-          const formData = new FormData(this);
-          const formObject = Object.fromEntries(formData.entries());
-          console.log(formObject);
-          fetch("http://127.0.0.1:5662/predict_marketing", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formObject),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              document.getElementById("response").innerText = data[0].categorie;
-            })
-            .catch((error) => console.error("Error:", error));
-        });
-    </script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetchDataAndFillTable();
-      });
-
-      function fetchDataAndFillTable() {
-        fetch("http://127.0.0.1:5662/get_marketing")
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            const tableBody = document.querySelector("#dataTable tbody");
-            data.forEach((item) => {
-              const row = document.createElement("tr");
-              row.innerHTML = `
-              <td>${item.AGE}</td>
-              <td>${item.SEXE}</td>
-              <td>${item.TAUX}</td>
-              <td>${item.SITUATIONFAMILIALE}</td>
-              <td>${item.NBENFANTSACHARGE}</td>
-              <td>${item.DEUXIEMEVOITURE ? "Oui" : "Non"}</td>
-            `;
-              tableBody.appendChild(row);
-            });
-          })
-          .catch((error) => console.error("Error:", error));
-      }
-    </script>
+    <script src="./maiin.js"></script>
   </body>
 </html>

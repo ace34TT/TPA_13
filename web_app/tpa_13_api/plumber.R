@@ -66,7 +66,7 @@ function(a, b) {
 function() {
   drv <- dbDriver("Oracle")
   con <- dbConnect(drv, username = "MBDS", password = "PassMbds", dbname = "//localhost:1521/ORCLPDB1")
-  data <- dbGetQuery(con, "SELECT * FROM marketing_result")
+  data <- dbGetQuery(con, "SELECT * FROM marketing_result ORDER BY id DESC")
   dbDisconnect(con)
   return(data)
 }
