@@ -8,5 +8,6 @@ curl -X POST "http://localhost:8080/api/v1/dags/big_data_pipeline/dagRuns" \
 -d '{
        "conf": {
          "run_task_group": "data_import_group"
-       }
+       },
+       "execution_date": "'"$(date -u +"%Y-%m-%dT%H:%M:%S.%fZ")"'"
 }'
