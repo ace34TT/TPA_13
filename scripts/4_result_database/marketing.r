@@ -1,4 +1,5 @@
 library(ROracle)
+library(RJDBC)
 
 hive_jdbc_jar <- "/home/aceky/Downloads/jars/hive-jdbc-3.1.3-standalone.jar"
 model <- readRDS("/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/TPA_13/scripts/3_data_analysis/models/categorie_model.rds")
@@ -18,21 +19,15 @@ colnames(marketing_df) <- sub("^marketing_ext\\.", "", colnames(marketing_df))
 marketing_df$id <- NULL
 marketing_df$sexe <- factor(marketing_df$sexe)
 marketing_df$situationfamiliale <- factor(marketing_df$situationfamiliale)
-
 marketing_df$sexe <- factor(marketing_df$sexe, levels = c("F", "M"))
 levels(marketing_df$sexe)[levels(marketing_df$sexe) == "M"] <- "H"
-
 levels_situationfamiliale <- c("En Couple", "Célibataire", "Seul(e)", "Divorcé(e)")
-# Update 'situationfamiliale' in marketing_df to include all levels
 marketing_df$situationfamiliale <- factor(marketing_df$situationfamiliale,
   levels = levels_situationfamiliale
 )
-# Convert 'deuxiemevoiture' to a factor
 marketing_df$deuxiemevoiture <- as.factor(marketing_df$deuxiemevoiture)
 
-str(marketing_df)
 single_prediction <- predict(model, marketing_df, type = "class")
-str(marketing_df)
 marketing_df$categorie <- single_prediction
 marketing_df$deuxiemevoiture <- as.integer(marketing_df$deuxiemevoiture)
 marketing_df$categorie <- as.character(marketing_df$categorie)

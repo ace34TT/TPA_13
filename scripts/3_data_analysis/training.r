@@ -42,8 +42,6 @@ data_for_clustering <- clients_imma_df_filtered[selected_variables]
 
 clients_imma_df_scaled <- scale(data_for_clustering[, sapply(data_for_clustering, is.numeric)])
 
-str(clients_imma_df_scaled)
-
 wss <- (nrow(clients_imma_df_scaled) - 1) * sum(apply(clients_imma_df_scaled, 2, var))
 for (i in 2:15) wss[i] <- sum(kmeans(clients_imma_df_scaled, centers = i)$withinss)
 plot(1:15, wss, type = "b", xlab = "Nombre de clusters", ylab = "Somme des carrés")
@@ -133,10 +131,7 @@ confusion_matrix <- table(Predicted = predictions, Actual = test_set$vehicle_cat
 accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
 print(accuracy)
 
-# Save the model
 saveRDS(model, file = "/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/TPA_13/scripts/3_data_analysis/models/categorie_model.rds")
 # saveRDS(model, file = "/vagrant/TPA_13/3_data_analysis/models/categorie_model.rds")
 
 dbDisconnect(conn)
-
-str(train_set)
