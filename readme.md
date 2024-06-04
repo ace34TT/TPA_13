@@ -78,33 +78,53 @@ Once Airflow is installed, you can access the Airflow web interface at `http://l
 
 Follow these steps to set up and run the Big Data Pipeline Project:
 
-1. **Navigate to VM Root Directory**: Access the root directory of your Vagrant VM:
+1. **Clone the Repository**: Clone the project repository to your Vagrant VM's root directory:
     ```bash
-    cd /VM_ROOT_DIR
+    git clone https://github.com/ace34TT/tpa_13.git
     ```
 
-2. **Clone the Repository**: Clone the project repository to your Vagrant VM's root directory:
+2. **Copy Airflow Dags** : Copy all files from the `/vagrant/big-data-pipeline/dags` directory to the `~/airflow/dags` directory within the VM:
     ```bash
-    git clone https://github.com/ace34TT/TPA_13.git
+    cp -r /vagrant/tpa_13/dags/*.py ~/airflow/dags/
+    ```
+3. **Create Hive Database** : run beeline to connect to hive  `beeline` 
+   ```sql
+    -- connect to hive
+    !connect jdbc:hive2://localhost:10000/
+    -- use empty username and empty password
+    -- create a database 
+    CREATE DATABASE tpa_13 ;
+   ```
+4. **Create Oracle sql User** :
+    ```sql
+    -- connect to oracle database 
+    sudo -su oracle
+    sqlplus /nolog
+
+    -- se connecter avec compte system pour créer un utilisateur mbds
+    connect system@ORCLPDB/Welcome1
+
+    -- création de l'utilisateur MBDS
+    create user MBDS identified by PassMbds
+    default tablespace users
+    temporary tablespace temp;
+
+    grant dba to MBDS;
+
+    -- ALTER USER MBDS QUOTA UNLIMITED ON USERS;
+    revoke unlimited tablespace from MBDS;
     ```
 
-3. **Copy DAG Files**: Copy all files from the `/vagrant/big-data-pipeline/dags` directory to the `~/airflow/dags` directory within the VM:
-    ```bash
-    cp -r /vagrant/big-data-pipeline/dags/* ~/airflow/dags/
-    ```
-
-## Process
+## Walkthrough
 
 ### Data Source Feeding
 
-Use the following scripts to feed data into the respective sources.
-
-#### HDFS
+Use the folDFS
 
 Run the script to import data into HDFS:
 
 ```bash
-sh /vagrant/TPA_13/scripts/1_data_source/hdfs/hdfs_import.sh
+sh /vagrant/tpa_13/scripts/1_data_source/hdfs/hdfs_import.sh
 ```
 
 #### MongoDB
@@ -112,7 +132,7 @@ sh /vagrant/TPA_13/scripts/1_data_source/hdfs/hdfs_import.sh
 Run the script to import data into MongoDB:
 
 ```bash
-sh /vagrant/TPA_13/scripts/1_data_source/mongo_db.sh
+sh /vagrant/tpa_13/scripts/1_data_source/mongo_db.sh
 ```
 
 #### Oracle NoSQL
@@ -120,15 +140,17 @@ sh /vagrant/TPA_13/scripts/1_data_source/mongo_db.sh
 Run the script to import data into Oracle NoSQL:
 
 ```bash
-java -jar /vagrant/TPA_13/scripts/1_data_source/oracle_nosql/marketing_to_oracle_nosql.jar
+java -jar /vagrant/tpa_13/scripts/1_data_source/oracle_nosql/marketing_to_oracle_nosql.jar
 ```
 
 ### MapReduce Job
 
 Execute the MapReduce job with the following script:
 
-```bash
-sh /vagrant/TPA_13/scripts/1_data_source/map_reduce/map_reduce_catalog_co2.sh
+```bashlowing scripts to feed data into the respective sources.
+
+#### H
+sh /vagrant/tpa_13/scripts/1_data_source/map_reduce/map_reduce_catalog_co2.sh
 ```
 
 ### Data Lake Operations
@@ -138,7 +160,7 @@ sh /vagrant/TPA_13/scripts/1_data_source/map_reduce/map_reduce_catalog_co2.sh
 Run the script to initialize tables in the data lake:
 
 ```bash
-python3.9 /vagrant/TPA_13/scripts/2_data_lake/table_init.py
+python3.9 /vagrant/tpa_13/scripts/2_data_lake/table_init.py
 ```
 
 #### Extract, Load, Transform (ELT)
@@ -146,7 +168,7 @@ python3.9 /vagrant/TPA_13/scripts/2_data_lake/table_init.py
 Run the script to perform ELT operations:
 
 ```bash
-python3.9 /vagrant/TPA_13/scripts/2_data_lake/clients_elt.py
+python3.9 /vagrant/tpa_13/scripts/2_data_lake/clients_elt.py
 ```
 
 ## Additional Notes

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo "==========STARTING HDFS IMPORT=========="
-catalogue_path="/vagrant/TPA_13/data/Catalogue.csv"
-co2_path="/vagrant/TPA_13/data/CO2.csv"
-immatriculation_path="/vagrant/TPA_13/data/Immatriculations.csv"
+catalogue_path="/vagrant/tpa_13/data/Catalogue.csv"
+co2_path="/vagrant/tpa_13/data/CO2.csv"
+immatriculation_path="/vagrant/tpa_13/data/Immatriculations.csv"
 hdfs_destination_path="tpa_13"
 
 folder_exists() {

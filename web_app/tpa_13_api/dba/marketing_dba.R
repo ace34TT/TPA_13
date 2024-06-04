@@ -6,7 +6,7 @@ get_marketings <- function() {
 
 }
 
-model <- readRDS("/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/TPA_13/scripts/3_data_analysis/models/categorie_model.rds")
+model <- readRDS("/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/tpa_13/scripts/3_data_analysis/models/categorie_model.rds")
 client_data <- data.frame(
     age = 24,
     sexe = "F",

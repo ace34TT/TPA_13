@@ -131,7 +131,7 @@ confusion_matrix <- table(Predicted = predictions, Actual = test_set$vehicle_cat
 accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
 print(accuracy)
 
-saveRDS(model, file = "/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/TPA_13/scripts/3_data_analysis/models/categorie_model.rds")
-# saveRDS(model, file = "/vagrant/TPA_13/3_data_analysis/models/categorie_model.rds")
+saveRDS(model, file = "/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/tpa_13/scripts/3_data_analysis/models/categorie_model.rds")
+# saveRDS(model, file = "/vagrant/tpa_13/3_data_analysis/models/categorie_model.rds")
 
 dbDisconnect(conn)

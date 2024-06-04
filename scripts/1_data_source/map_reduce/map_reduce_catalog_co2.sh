@@ -15,6 +15,6 @@ if folder_exists $resutl_path; then
     echo "Folder already exists in HDFS.Deleting it..."
 fi
 
-spark-submit /vagrant/TPA_13/scripts/1_data_source/map_reduce/map_reduce_catalog_co2.py
+spark-submit /vagrant/tpa_13/scripts/1_data_source/map_reduce/map_reduce_catalog_co2.py
 
 

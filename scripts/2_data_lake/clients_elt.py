@@ -266,7 +266,7 @@ print(filtered_df___.dtypes)
 
 
 filtered_df___.to_csv(
-    "/vagrant/TPA_13/data/processed_clients.csv", index=False, mode="w"
+    "/vagrant/tpa_13/data/processed_clients.csv", index=False, mode="w"
 )
 
 
@@ -274,7 +274,7 @@ filtered_df___.to_csv(
 
 
 load_data_query = """
-LOAD DATA LOCAL INPATH '/vagrant/TPA_13/data/processed_clients.csv' 
+LOAD DATA LOCAL INPATH '/vagrant/tpa_13/data/processed_clients.csv' 
 INTO TABLE clients_int
 """
 
