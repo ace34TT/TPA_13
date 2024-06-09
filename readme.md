@@ -225,5 +225,3 @@ To access the web frontend, follow these steps:
    ```
 
    This file provides a graphical user interface (GUI) for interacting with the API and viewing the processed data. The frontend is built using standard web technologies and can be accessed locally on your machine.
-
-By following these detailed instructions, you can efficiently run the data analysis, generate the machine learning model, process marketing data, and deploy the web application.
