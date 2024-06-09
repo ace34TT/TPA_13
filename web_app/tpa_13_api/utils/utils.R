@@ -13,8 +13,6 @@ convertDFForPrediction <- function(marketing_df) {
 }
 
 convertPredictionToDBSchema <- function(marketing_df, single_prediction) {
-    print("Bonjour , voici le resultat")
-    print(single_prediction)
     marketing_df$categorie <- single_prediction
     marketing_df$deuxiemevoiture <- as.integer(marketing_df$deuxiemevoiture)
     marketing_df$categorie <- as.character(marketing_df$categorie)

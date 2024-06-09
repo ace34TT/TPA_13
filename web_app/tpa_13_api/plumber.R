@@ -15,6 +15,7 @@ library(ROracle)
 library(RJDBC)
 library(jsonlite)
 library(data.table)
+library(randomForest)
 
 source("utils/utils.R")
 
@@ -73,16 +74,21 @@ function() {
 
 #* @post /predict_marketing
 function(req) {
+  # Create a data frame with the input data from the request
   client_data <- data.frame(
-    age = req$body$age,
-    sexe = req$body$sexe,
-    taux = req$body$taux,
-    situationfamiliale = req$body$situationfam,
-    nbenfantsacharge = req$body$nbenfantsacharge,
-    deuxiemevoiture = req$body$deuxiemevo
+    age = as.numeric(req$body$age),
+    sexe = as.character(req$body$sexe),
+    taux = as.numeric(req$body$taux),
+    situationfamiliale = as.character(req$body$situationfam),
+    nbenfantsacharge = as.numeric(req$body$nbenfantsacharge),
+    deuxiemevoiture = as.character(req$body$deuxiemevo)
   )
+
+  # Convert the data frame for prediction
   client_data <- convertDFForPrediction(client_data)
+  print(client_data) # Print for debugging
   single_prediction <- predict(model, client_data, type = "class")
+  print(single_prediction)
   client_data <- convertPredictionToDBSchema(client_data, single_prediction)
 
   drv <- dbDriver("Oracle")

@@ -17,6 +17,7 @@ query <- "SELECT * FROM marketing_ext"
 result <- dbGetQuery(hive_conn, query)
 marketing_df <- as.data.frame(result)
 colnames(marketing_df) <- sub("^marketing_ext\\.", "", colnames(marketing_df))
+
 marketing_df$id <- NULL
 marketing_df$sexe <- factor(marketing_df$sexe)
 marketing_df$situationfamiliale <- factor(marketing_df$situationfamiliale)
@@ -29,6 +30,7 @@ marketing_df$situationfamiliale <- factor(marketing_df$situationfamiliale,
 marketing_df$deuxiemevoiture <- as.factor(marketing_df$deuxiemevoiture)
 
 single_prediction <- predict(model, marketing_df, type = "class")
+
 marketing_df$categorie <- single_prediction
 marketing_df$deuxiemevoiture <- as.integer(marketing_df$deuxiemevoiture)
 marketing_df$categorie <- as.character(marketing_df$categorie)
@@ -37,8 +39,6 @@ marketing_df$deuxiemevoiture <- as.numeric(marketing_df$deuxiemevoiture) - 1
 
 drv <- dbDriver("Oracle")
 con <- dbConnect(drv, username = "MBDS", password = "PassMbds", dbname = "//localhost:1521/ORCLPDB1")
-
-
 
 dbSendQuery(con, "
 BEGIN
