@@ -2,11 +2,11 @@ library(ROracle)
 library(RJDBC)
 library(randomForest)
 
-hive_jdbc_jar <- "/home/aceky/Downloads/jars/hive-jdbc-3.1.3-standalone.jar"
-model <- readRDS("/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/tpa_13/scripts/3_data_analysis/models/categorie_model.rds")
+# hive_jdbc_jar <- "/home/aceky/Downloads/jars/hive-jdbc-3.1.3-standalone.jar"
+# model <- readRDS("/home/aceky/Study/cours/big-data/INSTALL_MV_BIGDATA_BOX/tpa_13/scripts/3_data_analysis/models/categorie_model.rds")
 
-# model <- readRDS("/vagrant/tpa_13/scripts/3_data_analysis/models/categorie_model.rds")
-# hive_jdbc_jar <- "/usr/local/apache-hive-3.1.3-bin/jdbc/hive-jdbc-3.1.3-standalone.jar"
+model <- readRDS("/vagrant/tpa_13/scripts/3_data_analysis/models/categorie_model.rds")
+hive_jdbc_jar <- "/usr/local/apache-hive-3.1.3-bin/jdbc/hive-jdbc-3.1.3-standalone.jar"
 
 hive_driver <- "org.apache.hive.jdbc.HiveDriver"
 hive_url <- "jdbc:hive2://localhost:10000/tpa_13"

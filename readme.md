@@ -114,63 +114,116 @@ Follow these steps to set up and run the Big Data Pipeline Project:
     -- ALTER USER MBDS QUOTA UNLIMITED ON USERS;
     revoke unlimited tablespace from MBDS;
     ```
-
-## Walkthrough
-
-### Data Source Feeding
-
-Use the folDFS
-
-Run the script to import data into HDFS:
-
+5. **Install R packages**
+To install all R required packages run the `packages.r` 
 ```bash
-sh /vagrant/tpa_13/scripts/1_data_source/hdfs/hdfs_import.sh
+cd /vagrant/tpa_13/scripts/3_data_analysis/ &&
+Rscript packages.r
 ```
 
-#### MongoDB
+## Usage
+### Data Source and Data lake
+#### Verify DAGs
+In the Airflow UI, navigate to the DAGs section. You should see the following DAGs listed:
+- `1_data_source`
+- `2_map_reduce`
+- `3_elt`
+- `4_data_lake_ingestion`
+- `big_data_pipeline`
 
-Run the script to import data into MongoDB:
+Enable and trigger the DAGs as required.
+#### DAG Overview
 
-```bash
-sh /vagrant/tpa_13/scripts/1_data_source/mongo_db.sh
-```
+##### Data Source Ingestion (1_data_source.py)
+This DAG handles the initial ingestion of data from various sources.
 
-#### Oracle NoSQL
+##### Map-Reduce Operations (2_map_reduce.py)
+This DAG performs map-reduce operations on the ingested data to process and transform it.
 
-Run the script to import data into Oracle NoSQL:
+##### ELT Process (3_elt.py)
+This DAG executes the ELT processes, transforming the raw data into a structured format suitable for analysis.
 
-```bash
-java -jar /vagrant/tpa_13/scripts/1_data_source/oracle_nosql/marketing_to_oracle_nosql.jar
-```
+##### Data Lake Ingestion (4_data_lake_ingestion.py)
+This DAG ingests the processed data into a data lake for long-term storage and further analysis.
 
-### MapReduce Job
+##### Big Data Pipeline (big_data_pipeline.py)
 
-Execute the MapReduce job with the following script:
+This DAG orchestrates the entire pipeline, coordinating the execution of the above steps in sequence.
 
-```bashlowing scripts to feed data into the respective sources.
+## Data Analysis
 
-#### H
-sh /vagrant/tpa_13/scripts/1_data_source/map_reduce/map_reduce_catalog_co2.sh
-```
+The data analysis phase involves generating a machine learning model and using it to process marketing data. Below are the detailed steps to execute these processes effectively.
 
-### Data Lake Operations
+> ⚠️ **Warning**: Although the process can be run within the virtual machine (VM), it is recommended to run it on your local machine due to limited resources in the VM. This will ensure faster execution and prevent resource exhaustion.
 
-#### Table Creation
+### Model Generation
 
-Run the script to initialize tables in the data lake:
+To generate the machine learning model, follow these steps:
 
-```bash
-python3.9 /vagrant/tpa_13/scripts/2_data_lake/table_init.py
-```
+1. **Navigate to the Analysis Scripts Folder**:
+   Move to the directory containing the R scripts for data analysis:
+   ```bash
+   cd /vagrant/tpa_13/scripts/3_data_analysis/
+   ```
 
-#### Extract, Load, Transform (ELT)
+2. **Install Required Packages and Run the Training Script**:
+   Execute the `packages.r` script to install the necessary R packages and run the training process:
+   ```bash
+   Rscript packages.r
+   ```
 
-Run the script to perform ELT operations:
+   This script will process your data and create a machine learning model. Upon completion, a model file named `categorie_model.rds` will be generated and saved in the `scripts/3_data_analysis/models/` directory.
 
-```bash
-python3.9 /vagrant/tpa_13/scripts/2_data_lake/clients_elt.py
-```
+### Marketing Processing
 
-## Additional Notes
+After generating the model, you can use it to process marketing data. The results will be stored in an Oracle SQL database. Follow these steps:
 
-Ensure all scripts are executed with the correct permissions. Use `chmod +x <script>` to make a script executable if needed. Verify that all necessary dependencies and services are properly configured and running before executing the scripts.
+1. **Navigate to the Result Database Scripts Folder**:
+   Move to the directory containing the script for marketing data processing:
+   ```bash
+   cd /vagrant/tpa_13/scripts/4_result_database/
+   ```
+
+2. **Run the Marketing Processing Script**:
+   Execute the `marketing.r` script to process the marketing data using the generated model:
+   ```bash
+   Rscript marketing.r
+   ```
+
+   This script will apply the machine learning model to the marketing data and save the processed results into an Oracle SQL database.
+
+## Web Application
+
+The web application provides an API and a frontend interface for interacting with the processed data and results.
+
+### API
+
+To run the web service API, follow these steps:
+
+1. **Navigate to the API Scripts Folder**:
+   Move to the directory containing the R script for the web service:
+   ```bash
+   cd /vagrant/tpa_13/web_app/tpa_13_api/
+   ```
+
+2. **Start the API Service**:
+   Execute the `plumber.R` script to start the web service:
+   ```bash
+   Rscript plumber.R
+   ```
+
+   This script uses the Plumber package to create an API that serves the processed data. The API will be available for consumption by other applications or services.
+
+### Web Frontend
+
+To access the web frontend, follow these steps:
+
+1. **Open the Frontend in Your Browser**:
+   Navigate to the frontend directory and open the `index.html` file in your browser:
+   ```bash
+   open /vagrant/tpa_13/web_app/frontend/src/index.html
+   ```
+
+   This file provides a graphical user interface (GUI) for interacting with the API and viewing the processed data. The frontend is built using standard web technologies and can be accessed locally on your machine.
+
+By following these detailed instructions, you can efficiently run the data analysis, generate the machine learning model, process marketing data, and deploy the web application.
